@@ -9,7 +9,7 @@ namespace Specify.Configuration
     {
         private readonly ITestEngine _testEngine;
 
-        public ScenarioRunner(IConfigureSpecify configuration, ITestEngine testEngine)
+        public ScenarioRunner(IBootstrapSpecify configuration, ITestEngine testEngine)
         {
             Configuration = configuration;
             _testEngine = testEngine;
@@ -17,14 +17,14 @@ namespace Specify.Configuration
 
         public void Execute(IScenario testObject, string scenarioTitle = null)
         {
-            using (var container = Configuration.ApplicationContainer.Resolve<IContainer>())
+            using (var container = Configuration.ApplicationContainer.Get<IContainer>())
             {
                 foreach (var action in Configuration.PerScenarioActions)
                 {
                     action.Before(container);
                 }
 
-                var scenario = (IScenario)container.Resolve(testObject.GetType());
+                var scenario = (IScenario)container.Get(testObject.GetType());
                 scenario.SetContainer(container);
                 _testEngine.Execute(scenario);
 
@@ -61,6 +61,6 @@ namespace Specify.Configuration
             Configuration.ApplicationContainer.Dispose();
         }
 
-        internal IConfigureSpecify Configuration { get; set; }
+        internal IBootstrapSpecify Configuration { get; set; }
     }
 }
