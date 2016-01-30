@@ -3,7 +3,7 @@ using Specify.Configuration;
 
 namespace Specify.Ninject
 {
-    public class SpecifyNinjectBootstrapper : SpecifyConfiguration
+    public class SpecifyNinjectBootstrapper : BootstrapperBase
     {
         protected override IContainer BuildApplicationContainer()
         {
