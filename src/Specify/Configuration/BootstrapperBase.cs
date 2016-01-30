@@ -8,9 +8,9 @@ using TestStack.BDDfy.Reporters.Html;
 namespace Specify.Configuration
 {
     /// <summary>
-    /// The base configuration class providing common functionality to bootstrap Specify.
+    /// The base bootstrapper class providing common functionality to configure Specify at startup.
     /// </summary>
-    public abstract class SpecifyConfiguration : IConfigureSpecify
+    public abstract class BootstrapperBase : IBootstrapSpecify
     {
         /// <summary>
         /// Builds the application container.
@@ -85,7 +85,7 @@ namespace Specify.Configuration
         private void LogSpecifyConfiguration()
         {
             string containerName;
-            using (IContainer container = ApplicationContainer.Resolve<IContainer>())
+            using (IContainer container = ApplicationContainer.Get<IContainer>())
             {
                 containerName = container.GetType().FullName;
             }
